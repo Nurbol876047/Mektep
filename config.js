@@ -2,7 +2,7 @@
 // config.js
 window.GEMINI_API_KEY = "YOUR_API_KEY_HERE";
 window.SCHOOL_INFO = "Мектеп";
-window.USER_NAME = "Пайдаланушы";
+window.USER_NAME = "Куланда";
 
 window.schoolMockData = {
   "attendance": {
