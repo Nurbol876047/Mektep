@@ -7,14 +7,14 @@ document.addEventListener('DOMContentLoaded', () => {
             <div class="ai-chat-header">
                 <div class="ai-chat-title">
                     <i data-lucide="bot"></i>
-                    <span>QOLDAU AI</span>
+                    <span>МЕКТЕП AI</span>
                 </div>
                 <button class="ai-chat-close" id="aiChatClose">
                     <i data-lucide="x"></i>
                 </button>
             </div>
             <div class="ai-chat-messages" id="aiChatMessages">
-                <div class="ai-msg ai-msg-bot">Сәлеметсіз бе! Мен QOLDAU AI көмекшісімін. Сізге қандай көмек қажет?</div>
+                <div class="ai-msg ai-msg-bot">Сәлеметсіз бе! Мен МЕКТЕП AI көмекшісімін. Сізге қандай көмек қажет?</div>
             </div>
             <div class="ai-chat-input-area">
                 <form id="aiChatForm" style="display:flex; width:100%; gap:8px;">
@@ -47,11 +47,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const path = window.location.pathname.toLowerCase();
     
     // Определяем контекст по URL
-    let systemContext = "Сен QOLDAU AI білім беру платформасының жалпы көмекшісісің. Қолданушыларға платформа мүмкіндіктерін түсіндіресің.";
+    let systemContext = "Сен МЕКТЕП AI білім беру платформасының жалпы көмекшісісің. Қолданушыларға платформа мүмкіндіктерін түсіндіресің.";
     if (window.location.pathname.includes('teacher') || window.location.pathname.includes('app')) {
-        systemContext = "Сен QOLDAU AI платформасының мұғалімдерге арналған көмекшісісің. Мұғалімдерге сабақ жоспарын құру, тест дайындау, оқушыларды бағалау сияқты сұрақтар бойынша көмектесесің.";
+        systemContext = "Сен МЕКТЕП AI платформасының мұғалімдерге арналған көмекшісісің. Мұғалімдерге сабақ жоспарын құру, тест дайындау, оқушыларды бағалау сияқты сұрақтар бойынша көмектесесің.";
     } else if (window.location.pathname.includes('director')) {
-        systemContext = "Сен QOLDAU AI платформасының мектеп басшылығына (директорларға) арналған көмекшісісің. Мектеп деректерін талдау, кеңес жоспарларын құру, тапсырмаларды басқару сұрақтары бойынша көмектесесің.";
+        systemContext = "Сен МЕКТЕП AI платформасының мектеп басшылығына (директорларға) арналған көмекшісісің. Мектеп деректерін талдау, кеңес жоспарларын құру, тапсырмаларды басқару сұрақтары бойынша көмектесесің.";
     }
 
     if (window.schoolMockData) {
