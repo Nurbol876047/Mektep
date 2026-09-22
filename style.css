@@ -699,3 +699,90 @@ textarea.form-control { resize: vertical; }
     .metrics-grid { grid-template-columns: 1fr; }
     .ai-chat-window { width: calc(100vw - 40px); height: 60vh; right: 20px; }
 }
+
+/* ===== Мұғалімнің сабақ кестесі (КТЖ бөлімі) ===== */
+.timetable-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    padding: 28px 28px 20px;
+    margin-bottom: 24px;
+    box-shadow: var(--shadow-card);
+    position: relative;
+    overflow: hidden;
+}
+.timetable-card::before {
+    content: "";
+    position: absolute; inset: 0 0 auto 0; height: 4px;
+    background: linear-gradient(90deg, var(--accent-green), #6366F1 60%, #F59E0B);
+}
+.tt-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 20px; }
+.tt-title { display: flex; align-items: center; gap: 10px; font-size: 1.25rem; font-weight: 800; color: var(--secondary); }
+.tt-title i { width: 22px; height: 22px; color: var(--accent-green); }
+.tt-sub { color: var(--text-muted); font-size: 0.875rem; margin-top: 4px; }
+.tt-stats { display: flex; gap: 10px; }
+.tt-stat { background: var(--bg-offset); border-radius: 12px; padding: 8px 14px; display: flex; flex-direction: column; align-items: center; min-width: 84px; }
+.tt-stat b { font-size: 1.25rem; font-weight: 800; color: var(--secondary); line-height: 1.1; }
+.tt-stat span { font-size: 0.7rem; color: var(--text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; }
+
+.tt-shift + .tt-shift { margin-top: 20px; }
+.tt-shift-title { display: inline-flex; align-items: center; gap: 8px; font-size: 0.8rem; font-weight: 700; color: var(--secondary); background: var(--bg-offset); padding: 6px 12px; border-radius: 100px; margin-bottom: 10px; }
+.tt-shift-title i { width: 15px; height: 15px; color: #F59E0B; }
+.tt-scroll { overflow-x: auto; }
+
+.tt-table { width: 100%; border-collapse: separate; border-spacing: 0; min-width: 560px; }
+.tt-table th, .tt-table td { text-align: center; padding: 8px 6px; border-bottom: 1px solid var(--border-color); }
+.tt-table thead th { font-size: 0.78rem; font-weight: 700; color: var(--secondary); background: var(--bg-offset); padding: 10px 6px; }
+.tt-table thead th:first-child { border-radius: 10px 0 0 10px; }
+.tt-table thead th:last-child { border-radius: 0 10px 10px 0; }
+.tt-table tbody tr:last-child td { border-bottom: none; }
+.tt-table tbody tr:hover td { background: #FAFBFD; }
+.tt-day { display: block; }
+.tt-daynum { display: block; font-size: 0.65rem; font-weight: 600; color: var(--text-muted); }
+.tt-num { width: 36px; color: var(--text-muted); font-weight: 700; font-size: 0.8rem; }
+.tt-time { width: 110px; white-space: nowrap; font-variant-numeric: tabular-nums; font-weight: 600; color: var(--secondary); font-size: 0.85rem; }
+.tt-muted { color: var(--text-muted); font-weight: 500; font-size: 0.75rem; }
+.tt-today { background: var(--accent-green-light) !important; }
+.tt-table thead th.tt-today { color: var(--accent-green); box-shadow: inset 0 -2px 0 var(--accent-green); }
+
+.tt-pill {
+    display: inline-block; min-width: 52px; padding: 6px 12px; border-radius: 10px;
+    font-weight: 800; font-size: 0.9rem; letter-spacing: 0.01em; color: #fff;
+    box-shadow: 0 2px 6px rgba(15, 23, 42, 0.12);
+    transition: transform 0.15s;
+}
+.tt-pill:hover { transform: translateY(-1px) scale(1.04); }
+.tt-empty { display: inline-block; width: 18px; height: 3px; border-radius: 2px; background: var(--border-color); }
+/* Параллель бойынша түстер */
+.tt-pill.g6  { background: linear-gradient(135deg, #0EA5E9, #38BDF8); }
+.tt-pill.g7  { background: linear-gradient(135deg, #10B981, #34D399); }
+.tt-pill.g8  { background: linear-gradient(135deg, #F59E0B, #FBBF24); color: #1F2937; }
+.tt-pill.g9  { background: linear-gradient(135deg, #EC4899, #F472B6); }
+.tt-pill.g10 { background: linear-gradient(135deg, #6366F1, #818CF8); }
+.tt-pill.g11 { background: linear-gradient(135deg, #0F172A, #334155); }
+
+.tt-footer {
+    margin-top: 20px; padding-top: 16px; border-top: 1px dashed var(--border-color);
+    display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+}
+.tt-avatar {
+    width: 44px; height: 44px; border-radius: 50%; flex-shrink: 0;
+    background: linear-gradient(135deg, var(--accent-green), #6366F1);
+    color: #fff; font-weight: 800; display: flex; align-items: center; justify-content: center; font-size: 0.95rem;
+}
+.tt-contact { flex: 1; min-width: 200px; }
+.tt-contact-label { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); }
+.tt-phone { display: inline-flex; align-items: center; gap: 8px; font-size: 1.2rem; font-weight: 800; color: var(--secondary); text-decoration: none; margin-top: 2px; font-variant-numeric: tabular-nums; }
+.tt-phone i { width: 18px; height: 18px; color: var(--accent-green); }
+.tt-phone:hover { color: var(--accent-green); }
+.tt-copy {
+    display: inline-flex; align-items: center; gap: 6px; padding: 9px 14px; border-radius: 100px;
+    border: 1px solid var(--border-color); background: var(--bg-card); color: var(--secondary);
+    font-family: inherit; font-weight: 600; font-size: 0.85rem; cursor: pointer; transition: all 0.2s;
+}
+.tt-copy i { width: 15px; height: 15px; }
+.tt-copy:hover { background: var(--accent-green-light); border-color: var(--accent-green); color: var(--accent-green); }
+@media (max-width: 600px) {
+    .timetable-card { padding: 20px 16px 16px; border-radius: 16px; }
+    .tt-stat { min-width: 70px; padding: 6px 10px; }
+}

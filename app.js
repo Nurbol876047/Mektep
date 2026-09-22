@@ -47,6 +47,105 @@ const initialTasks = [
 ];
 let tasksArray = [...initialTasks];
 
+
+// --- TEACHER TIMETABLE (Сабақ кестесі, фотодан) ---
+// null = бос сағат. Апта күндері: 1күн..5күн
+const TIMETABLE = {
+    days: ["Дүйсенбі", "Сейсенбі", "Сәрсенбі", "Бейсенбі", "Жұма"],
+    shifts: [
+        {
+            name: "1-ауысым", icon: "sunrise",
+            rows: [
+                { n: 1, time: "8:00–8:45",   cells: ["10А", "11а", null,  null,  "8а"] },
+                { n: 2, time: "8:50–9:35",   cells: [null,  null,  null,  "10б", null] },
+                { n: 3, time: "9:45–10:30",  cells: [null,  "9в",  null,  null,  null] },
+                { n: 4, time: "10:35–11:20", cells: [null,  null,  null,  null,  null] },
+                { n: 5, time: "11:25–12:10", cells: ["11а", null,  null,  "11ә", "8в"] },
+                { n: 6, time: "12:12–13:00", cells: ["10а", null,  "10",  "10ә", "10ә"] },
+                { n: 7, time: "",            cells: [null,  "8б",  "9а",  null,  null] },
+            ],
+        },
+        {
+            name: "2-ауысым", icon: "sunset",
+            rows: [
+                { n: 1, time: "14:00–14:45", cells: [null, null,  null, null, "7а"] },
+                { n: 2, time: "14:50–15:35", cells: [null, null,  null, null, null] },
+                { n: 3, time: "15:45–16:30", cells: [null, null,  null, null, "7б"] },
+                { n: 4, time: "16:35–17:20", cells: [null, "7в",  null, null, "6а"] },
+                { n: 5, time: "17:25–18:10", cells: [null, null,  null, null, null] },
+                { n: 6, time: "18:15–19:00", cells: [null, null,  null, null, null] },
+            ],
+        },
+    ],
+};
+
+function renderTimetable() {
+    const host = document.getElementById('teacherTimetable');
+    if (!host) return;
+    // Бүгінгі күн бағанын белгілеу (Дс=0 … Жм=4)
+    const today = (new Date().getDay() + 6) % 7;
+    const gradeOf = (c) => parseInt(c, 10);
+    const total = TIMETABLE.shifts.reduce((a, s) => a + s.rows.reduce((b, r) => b + r.cells.filter(Boolean).length, 0), 0);
+    const classes = [...new Set(TIMETABLE.shifts.flatMap(s => s.rows.flatMap(r => r.cells.filter(Boolean).map(c => c.toUpperCase()))))];
+
+    const initials = (window.USER_NAME || "").split(/\s+/).slice(0, 2).map(w => w[0] || "").join("");
+    const phone = window.USER_PHONE || "";
+    const tel = phone.replace(/[^\d+]/g, "");
+
+    const shiftHTML = TIMETABLE.shifts.map(sh => `
+        <div class="tt-shift">
+            <div class="tt-shift-title"><i data-lucide="${sh.icon}"></i> ${sh.name}</div>
+            <div class="tt-scroll">
+            <table class="tt-table">
+                <thead>
+                    <tr>
+                        <th class="tt-num">№</th>
+                        <th class="tt-time">Уақыт</th>
+                        ${TIMETABLE.days.map((d, i) => `<th class="${i === today ? 'tt-today' : ''}"><span class="tt-day">${d}</span><span class="tt-daynum">${i + 1}-күн</span></th>`).join('')}
+                    </tr>
+                </thead>
+                <tbody>
+                    ${sh.rows.map(r => `
+                        <tr>
+                            <td class="tt-num">${r.n}</td>
+                            <td class="tt-time">${r.time || '<span class="tt-muted">қосымша</span>'}</td>
+                            ${r.cells.map((c, i) => `<td class="${i === today ? 'tt-today' : ''}">${c ? `<span class="tt-pill g${gradeOf(c)}">${c.toUpperCase()}</span>` : '<span class="tt-empty"></span>'}</td>`).join('')}
+                        </tr>`).join('')}
+                </tbody>
+            </table>
+            </div>
+        </div>`).join('');
+
+    host.innerHTML = `
+        <div class="tt-head">
+            <div>
+                <div class="tt-title"><i data-lucide="calendar-days"></i> Сабақ кестесі</div>
+                <div class="tt-sub">${window.USER_NAME || ""} · Сыныптары: ${window.USER_CLASSES || ""}</div>
+            </div>
+            <div class="tt-stats">
+                <div class="tt-stat"><b>${total}</b><span>сағат / апта</span></div>
+                <div class="tt-stat"><b>${classes.length}</b><span>сынып</span></div>
+            </div>
+        </div>
+        ${shiftHTML}
+        <div class="tt-footer">
+            <div class="tt-avatar">${initials}</div>
+            <div class="tt-contact">
+                <div class="tt-contact-label">Оқушылармен байланыс</div>
+                <a class="tt-phone" href="tel:${tel}"><i data-lucide="phone"></i> ${phone}</a>
+            </div>
+            <button type="button" class="tt-copy" id="ttCopyPhone"><i data-lucide="copy"></i> Көшіру</button>
+        </div>`;
+
+    const copyBtn = host.querySelector('#ttCopyPhone');
+    if (copyBtn) copyBtn.addEventListener('click', async () => {
+        try { await navigator.clipboard.writeText(phone); } catch { /* clipboard недоступен */ }
+        copyBtn.innerHTML = '<i data-lucide="check"></i> Көшірілді';
+        lucide.createIcons();
+        setTimeout(() => { copyBtn.innerHTML = '<i data-lucide="copy"></i> Көшіру'; lucide.createIcons(); }, 1800);
+    });
+}
+
 // --- MAIN INIT ---
 document.addEventListener('DOMContentLoaded', () => {
     
@@ -55,6 +154,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('sidebarUserName').innerText = window.USER_NAME || "Пайдаланушы";
     document.getElementById('topbarUserName').innerText = window.USER_NAME || "Пайдаланушы";
 
+    renderTimetable();
     lucide.createIcons();
 
     // --- SPA Navigation Logic ---

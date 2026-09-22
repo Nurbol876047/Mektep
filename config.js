@@ -3,6 +3,8 @@
 window.GEMINI_API_KEY = "YOUR_API_KEY_HERE";
 window.SCHOOL_INFO = "Т.Жүргенов атындағы #80 мектеп-гимназиясы";
 window.USER_NAME = "Утемуратова Нургул Даражаевна";
+window.USER_PHONE = "+7 771 822 6767";
+window.USER_CLASSES = "5–11";
 
 window.schoolMockData = {
   "attendance": {
