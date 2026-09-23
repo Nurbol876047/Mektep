@@ -2,18 +2,69 @@
 
 // --- Fallback Data ---
 const fallbackLessonPlan = {
-    aim: "Оқушыларға тақырып бойынша негізгі ұғымдарды түсіндіру, теориялық білімдерін практикамен ұштастыру.",
-    results: [
-        "Негізгі терминдерді біледі және түсінеді",
-        "Алған білімдерін есеп шығаруда немесе талдауда қолдана алады",
-        "Топпен жұмыс істеу дағдыларын қалыптастырады"
+    objective_code: "—",
+    objective_text: "Тақырып бойынша негізгі ұғымдарды анықтау және практикада қолдану.",
+    goals: [
+        "негізгі терминдерді анықтайды және түсіндіреді",
+        "алған білімін есеп шығаруда немесе талдауда қолданады",
+        "топпен жұмыс істеу дағдысын көрсетеді"
     ],
-    course: {
-        intro: "Ұйымдастыру кезеңі. Үй тапсырмасын сұрау. Жаңа сабақтың мақсатымен таныстыру (10 мин).",
-        main: "Жаңа тақырыпты түсіндіру. Презентация және нақты мысалдар арқылы көрсету. (25 мин).",
-        conclusion: "Сабақты бекіту. Рефлексия. Үйге тапсырма беру (10 мин)."
-    },
-    tasks: ["Оқулықтағы №1, 2 жаттығуларды орындау", "Қосымша: Тақырып бойынша эссе дайындау"]
+    values: "Сыни ойлау: жаңа ақпаратты талдау. Ынтымақтастық: топта бірлесіп жұмыс істеу.",
+    ai_tools: ["Chat GPT", "Google Gemini"],
+    stages: [
+        {
+            stage: "Сабақтың басы",
+            time: "10 минут",
+            teacher: ["Ұйымдастыру, амандасу.", "Психологиялық ахуал орнату.", "Үй тапсырмасын тексеру.", "Сабақтың тақырыбы мен мақсатын таныстыру."],
+            student: ["Мұғаліммен амандасады.", "Сабақтың тақырыбын дәптерге жазады."],
+            differentiation: "Қолдауды қажет ететін оқушыларға бағыттаушы сұрақтар беріледі; қабілеті жоғары оқушыларға тақырыпты өз бетінше болжау ұсынылады.",
+            functional_literacy: "",
+            assessment: ["Дескриптор: сабақ мақсатын өз сөзімен айтады", "1 балл"],
+            resources: ["Презентация"]
+        },
+        {
+            stage: "Сабақтың ортасы",
+            time: "25 минут",
+            teacher: ["Жаңа тақырыпты түсіндіру.", "Топтық және жеке жұмыс тапсырмаларын ұйымдастыру."],
+            student: ["Жаңа ақпаратпен танысады.", "Топпен және жеке тапсырманы орындайды."],
+            differentiation: "Қолдауды қажет ететін оқушыларға кезең-кезеңімен нұсқаулық беріледі; қабілеті жоғары оқушылар тапсырманы өз бетінше күрделендіріп орындайды.",
+            functional_literacy: "Алған білімін күнделікті өмірдегі жағдаятпен байланыстырады.",
+            assessment: ["Дескриптор: тапсырманы толық орындайды", "3 балл"],
+            resources: ["Жұмыс парағы", "Chat GPT"]
+        },
+        {
+            stage: "Сабақтың соңы",
+            time: "10 минут",
+            teacher: ["Сабақты бекіту.", "Рефлексия жүргізу.", "Үйге тапсырма беру."],
+            student: ["Бекіту тапсырмасын орындайды.", "Рефлексия жасайды."],
+            differentiation: "Қолдауды қажет ететін оқушыларға қорытынды сұрақтар ауызша қайталанады.",
+            functional_literacy: "",
+            assessment: ["Дескриптор: бекіту сұрақтарына дұрыс жауап береді", "1 балл"],
+            resources: ["Жұмыс парағы"]
+        }
+    ],
+    homework: { topic: "Тақырып бойынша оқулықтағы жаттығулар", resource: "Оқулық" }
+};
+
+const fallbackKtj = {
+    sections: [
+        {
+            title: "1-бөлім. Кіріспе бөлім",
+            lessons: [
+                { number: 1, topic: "Кіріспе сабақ. Тоқсан тақырыптарымен танысу", hours: 1, week: "1-апта", objective_code: "—" },
+                { number: 2, topic: "Негізгі ұғымдарды қайталау", hours: 1, week: "1-апта", objective_code: "—" },
+                { number: 3, topic: "Бекіту сабағы", hours: 1, week: "1-апта", objective_code: "—" }
+            ]
+        },
+        {
+            title: "2-бөлім. Негізгі тақырыптар",
+            lessons: [
+                { number: 4, topic: "Жаңа тақырып 1", hours: 1, week: "2-апта", objective_code: "—" },
+                { number: 5, topic: "Жаңа тақырып 2", hours: 1, week: "2-апта", objective_code: "—" },
+                { number: 6, topic: "Практикалық жұмыс", hours: 1, week: "2-апта", objective_code: "—" }
+            ]
+        }
+    ]
 };
 
 const fallbackTest = [
@@ -255,38 +306,66 @@ document.addEventListener('DOMContentLoaded', () => {
         return JSON.parse(text);
     }
 
-    // --- MODULE 1: LESSON PLAN ---
-    const lessonPlanForm = document.getElementById('lessonPlanForm');
-    if (lessonPlanForm) {
-        lessonPlanForm.addEventListener('submit', async (e) => {
+    // --- MODULE 0: KTJ (Күнтізбелік-тақырыптық жоспар) ---
+    const ktjForm = document.getElementById('ktjForm');
+    if (ktjForm) {
+        ktjForm.addEventListener('submit', async (e) => {
             e.preventDefault();
-            const subject = document.getElementById('lessonSubject').value;
-            const grade = document.getElementById('lessonGrade').value;
-            const topic = document.getElementById('lessonTopic').value;
+            const subject = document.getElementById('ktjSubject').value;
+            const grade = document.getElementById('ktjGrade').value;
+            const quarter = document.getElementById('ktjQuarter').value;
+            const weeklyHours = parseInt(document.getElementById('ktjWeeklyHours').value, 10);
+            const weeks = parseInt(document.getElementById('ktjWeeks').value, 10);
+            const sectionsInput = document.getElementById('ktjSections').value.trim();
 
-            const lessonPlanResult = document.getElementById('lessonPlanResult');
-            lessonPlanResult.style.display = 'block';
-            lessonPlanResult.innerHTML = `<div class="form-card">${getSkeletonHTML()}</div>`;
-            
-            Swal.fire({ toast: true, position: 'top-end', icon: 'info', title: 'AI сабақ жоспарын құрастыруда...', showConfirmButton: false, timer: 3000 });
+            const ktjResult = document.getElementById('ktjResult');
+            ktjResult.style.display = 'block';
+            ktjResult.innerHTML = `<div class="form-card">${getSkeletonHTML()}</div>`;
 
+            Swal.fire({ toast: true, position: 'top-end', icon: 'info', title: 'AI КТЖ құрастыруда...', showConfirmButton: false, timer: 3000 });
+
+            const meta = { subject, grade, quarter, weeklyHours, weeks, totalHours: weeklyHours * weeks };
             try {
                 const [data] = await Promise.all([
-                    fetchLessonPlanFromGemini(subject, grade, topic),
+                    fetchKtjFromGemini(meta, sectionsInput),
                     new Promise(r => setTimeout(r, 2000))
                 ]);
-                renderLessonPlan(data);
+                renderKtj(data, meta);
                 Swal.fire({ toast: true, position: 'top-end', icon: 'success', title: 'Сәтті жасалды!', showConfirmButton: false, timer: 3000 });
             } catch (error) {
-                console.warn("Fallback қолданылды (Сабақ жоспары), себебі:", error);
-                renderLessonPlan(fallbackLessonPlan);
+                console.warn("Fallback қолданылды (КТЖ), себебі:", error);
+                renderKtj(fallbackKtj, meta);
                 Swal.fire({ toast: true, position: 'top-end', icon: 'success', title: 'Дайын!', showConfirmButton: false, timer: 3000 });
             }
         });
     }
 
-    async function fetchLessonPlanFromGemini(subject, grade, topic) {
-        const prompt = `Сен тәжірибелі мұғалімсің. Мына тақырып бойынша қазақ тілінде сабақ жоспарын жаз.\nПән: ${subject}. Сынып: ${grade}. Тақырып: ${topic}.\nЖауапты JSON форматында қайтар: {"aim": "Мақсаты", "results": ["Нәтиже 1"], "course": {"intro": "Кіріспе", "main": "Негізгі", "conclusion": "Қорытынды"}, "tasks": ["Тапсырма 1"]}`;
+    async function fetchKtjFromGemini(meta, sectionsInput) {
+        const sectionsLine = sectionsInput
+            ? `Мұғалім ұсынған бөлімдер тізімі (осыларды міндетті түрде пайдалан): ${sectionsInput}.`
+            : `Бөлімдер тізімін жаңартылған білім мазмұны бағдарламасына сай өзің ұсын.`;
+
+        const prompt = `Сен Қазақстан мектебінің оқу бағдарламасын жетік білетін тәжірибелі мұғалімсің. Мына деректер бойынша КҮНТІЗБЕЛІК-ТАҚЫРЫПТЫҚ ЖОСПАР (КТЖ) құрастыр.
+Пән: ${meta.subject}. Сынып: ${meta.grade}. Тоқсан: ${meta.quarter}. Аптасына ${meta.weeklyHours} сағат. Тоқсанда ${meta.weeks} апта. Барлығы дәл ${meta.totalHours} сабақ (сағат) болуы керек.
+${sectionsLine}
+
+ЕРЕЖЕЛЕР:
+- Барлық сабақтарды логикалық бөлімдерге (тақырыптық блоктарға) топтастыр.
+- Әр сабаққа реттік нөмір (1-ден ${meta.totalHours}-ге дейін, үзіліссіз), қысқа әрі нақты тақырып, сағат саны (әдетте 1), апта нөмірі ("N-апта" түрінде) және оқу мақсатының кодын (мыс. "${String(meta.grade).match(/\d+/)?.[0] || '5'}.1.2.3" үлгісінде) бер.
+- Барлық "lessons" тізіміндегі жазба саны дәл ${meta.totalHours} болуы міндетті.
+- Тақырыптар бір-бірін қайталамасын, бағдарлама логикасына сай бірізді өрбісін.
+
+Жауапты ТЕК ЖАРАМДЫ JSON түрінде қайтар (Markdown, түсініктеме қоспа), дәл мына схема бойынша:
+{
+  "sections": [
+    {
+      "title": "1-бөлім. Бөлім атауы",
+      "lessons": [
+        {"number": 1, "topic": "Сабақ тақырыбы", "hours": 1, "week": "1-апта", "objective_code": "код"}
+      ]
+    }
+  ]
+}`;
         const res = await fetchWithTimeout(`/api/chat`, {
             method: "POST", headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ message: prompt, locale: 'kk', mode: 'teacher' })
@@ -296,37 +375,178 @@ document.addEventListener('DOMContentLoaded', () => {
         return safeParseJSON(data.message);
     }
 
-    function renderLessonPlan(data) {
+    function renderKtj(data, meta) {
+        const ktjResult = document.getElementById('ktjResult');
+        const teacherName = (window.USER_NAME || 'Мұғалім').split(' ').slice(0, 2).join(' ');
+        const sections = data.sections || [];
+        const lessonCount = sections.reduce((sum, s) => sum + (s.lessons || []).length, 0);
+
+        const bodyRows = sections.map(sec => `
+            <tr class="kmj-section-row"><td colspan="5"><strong>${sec.title}</strong></td></tr>
+            ${(sec.lessons || []).map(l => `
+                <tr>
+                    <td>${l.number}</td>
+                    <td>${l.topic}</td>
+                    <td>${l.hours}</td>
+                    <td>${l.week}</td>
+                    <td><span class="kmj-code">${l.objective_code || '—'}</span></td>
+                </tr>
+            `).join('')}
+        `).join('');
+
+        ktjResult.innerHTML = `
+            <div class="form-card kmj-card" style="opacity:0; transform:translateY(20px);">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+                    <h4 style="color:var(--primary); display:flex; align-items:center; gap:8px; margin:0;"><i data-lucide="calendar-range"></i> Күнтізбелік-тақырыптық жоспар</h4>
+                    <button type="button" class="btn btn-secondary" id="btnPrintKtj" style="padding:8px 16px;"><i data-lucide="printer"></i> Баспаға шығару</button>
+                </div>
+
+                <table class="kmj-table kmj-header-table">
+                    <tbody>
+                        <tr><th>Пән</th><td>${meta.subject}</td><th>Сынып</th><td>${meta.grade}</td></tr>
+                        <tr><th>Тоқсан</th><td>${meta.quarter}</td><th>Педагог</th><td>${teacherName}</td></tr>
+                        <tr><th>Апталық сағат</th><td>${meta.weeklyHours}</td><th>Барлық сағат</th><td>${meta.totalHours} (жоспарда: ${lessonCount})</td></tr>
+                    </tbody>
+                </table>
+
+                <table class="kmj-table kmj-flow-table">
+                    <thead>
+                        <tr><th>№</th><th>Сабақтың тақырыбы</th><th>Сағат</th><th>Апта</th><th>Оқу мақсаты</th></tr>
+                    </thead>
+                    <tbody>${bodyRows}</tbody>
+                </table>
+            </div>
+        `;
+        lucide.createIcons();
+        gsap.to(ktjResult.querySelector('.form-card'), { opacity: 1, y: 0, duration: 0.5 });
+        document.getElementById('btnPrintKtj')?.addEventListener('click', () => window.print());
+    }
+
+    // --- MODULE 1: LESSON PLAN ---
+    const lessonPlanForm = document.getElementById('lessonPlanForm');
+    if (lessonPlanForm) {
+        lessonPlanForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const subject = document.getElementById('lessonSubject').value;
+            const grade = document.getElementById('lessonGrade').value;
+            const topic = document.getElementById('lessonTopic').value;
+            const objectiveCode = document.getElementById('lessonObjectiveCode')?.value?.trim() || '';
+
+            const lessonPlanResult = document.getElementById('lessonPlanResult');
+            lessonPlanResult.style.display = 'block';
+            lessonPlanResult.innerHTML = `<div class="form-card">${getSkeletonHTML()}</div>`;
+
+            Swal.fire({ toast: true, position: 'top-end', icon: 'info', title: 'AI ҚМЖ (саралаумен) құрастыруда...', showConfirmButton: false, timer: 3000 });
+
+            try {
+                const [data] = await Promise.all([
+                    fetchLessonPlanFromGemini(subject, grade, topic, objectiveCode),
+                    new Promise(r => setTimeout(r, 2000))
+                ]);
+                renderLessonPlan(data, { subject, grade, topic });
+                Swal.fire({ toast: true, position: 'top-end', icon: 'success', title: 'Сәтті жасалды!', showConfirmButton: false, timer: 3000 });
+            } catch (error) {
+                console.warn("Fallback қолданылды (Сабақ жоспары), себебі:", error);
+                renderLessonPlan(fallbackLessonPlan, { subject, grade, topic });
+                Swal.fire({ toast: true, position: 'top-end', icon: 'success', title: 'Дайын!', showConfirmButton: false, timer: 3000 });
+            }
+        });
+    }
+
+    async function fetchLessonPlanFromGemini(subject, grade, topic, objectiveCode) {
+        const gradeNumber = String(grade).match(/\d+/)?.[0] || '5';
+        const objectiveLine = objectiveCode
+            ? `Оқу мақсатының коды: "${objectiveCode}" — осы кодты дәл сол күйінде қолдан.`
+            : `Оқу мақсатының кодын өзің ұсын (мыс. "${gradeNumber}.1.2.3" үлгісінде, жаңартылған білім мазмұны стиліне сай).`;
+
+        const prompt = `Сен оқу бағдарламасын жетік білетін тәжірибелі мұғалімсің. Қазақстан мектебіне арналған ҚЫСҚА МЕРЗІМДІ ЖОСПАРДЫ (ҚМЖ) САРАЛАУМЕН (деңгейлік тапсырмалармен) құрастыр.
+Пән: ${subject}. Сынып: ${grade}. Тақырып: ${topic}.
+${objectiveLine}
+
+ЖОСПАР МІНДЕТТІ ТҮРДЕ мына құрылымды сақтасын:
+- Дәл үш кезең: "Сабақтың басы" (шамамен 10 минут), "Сабақтың ортасы" (шамамен 25-30 минут), "Сабақтың соңы" (шамамен 5-10 минут, рефлексиямен).
+- ӘРБІР кезеңде "differentiation" өрісі МІНДЕТТІ және бос болмауы керек: қолдауды қажет ететін оқушыларға бір нұсқа, қабілеті жоғары оқушыларға басқа, күрделірек нұсқа көрсетілсін.
+- Кемінде бір кезеңде "functional_literacy" өрісінде өмірлік жағдаятпен байланыс көрсетілсін (қалғанында бос жол "" қалдыр).
+- Әр кезеңге дескриптор мен балл түріндегі "assessment" тізімі болсын.
+- Әр кезеңге "resources" тізімі болсын (презентация, жұмыс парағы, ЖИ құралы, т.б.).
+- "ai_tools" өрісінде осы сабақта пайдаланылатын нақты ЖИ құралдарын көрсет (мыс. Chat GPT, Google Gemini).
+
+Жауапты ТЕК ЖАРАМДЫ JSON түрінде қайтар (Markdown, кіріспе сөз, түсініктеме қоспа), дәл мына схема бойынша:
+{
+  "objective_code": "код",
+  "objective_text": "оқу мақсатының толық мәтіні",
+  "goals": ["мақсат 1 (етістікпен: анықтайды/түсіндіреді/салыстырады)", "мақсат 2", "мақсат 3"],
+  "values": "Кросс-пәндік құндылықтар мен дағдылар (сыни ойлау, академиялық адалдық, т.б.) бір-екі сөйлеммен",
+  "ai_tools": ["құрал 1", "құрал 2"],
+  "stages": [
+    {"stage": "Сабақтың басы", "time": "10 минут", "teacher": ["әрекет 1", "әрекет 2"], "student": ["әрекет 1", "әрекет 2"], "differentiation": "...", "functional_literacy": "", "assessment": ["Дескриптор: ...", "1 балл"], "resources": ["ресурс 1"]},
+    {"stage": "Сабақтың ортасы", "time": "27 минут", "teacher": [], "student": [], "differentiation": "...", "functional_literacy": "...", "assessment": [], "resources": []},
+    {"stage": "Сабақтың соңы", "time": "8 минут", "teacher": [], "student": [], "differentiation": "...", "functional_literacy": "", "assessment": [], "resources": []}
+  ],
+  "homework": {"topic": "үй тапсырмасының тақырыбы", "resource": "ресурс"}
+}`;
+        const res = await fetchWithTimeout(`/api/chat`, {
+            method: "POST", headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ message: prompt, locale: 'kk', mode: 'teacher' })
+        });
+        if (!res.ok) throw new Error("API Error: " + res.status);
+        const data = await res.json();
+        return safeParseJSON(data.message);
+    }
+
+    function renderLessonPlan(data, meta) {
         const lessonPlanResult = document.getElementById('lessonPlanResult');
-        let resultsList = data.results.map(r => `<li><i data-lucide="check" style="color:var(--accent-green); width:16px; height:16px;"></i> ${r}</li>`).join('');
-        let tasksList = data.tasks.map(t => `<li><i data-lucide="pen-tool" style="color:var(--primary); width:16px; height:16px;"></i> ${t}</li>`).join('');
+        const teacherName = (window.USER_NAME || 'Мұғалім').split(' ').slice(0, 2).join(' ');
+        const today = new Date().toLocaleDateString('kk-KZ', { day: '2-digit', month: '2-digit', year: '2-digit' });
+        const goalsHtml = (data.goals || []).map(g => `<li>${g}</li>`).join('');
+        const aiToolsHtml = (data.ai_tools || []).map(t => `<span class="kmj-pill">${t}</span>`).join('');
+
+        const stagesHtml = (data.stages || []).map(st => `
+            <tr>
+                <td><strong>${st.stage}</strong><br><span style="color:var(--text-muted); font-size:.85rem;">${st.time || ''}</span></td>
+                <td>${(st.teacher || []).map(x => `<p style="margin:0 0 6px;">${x}</p>`).join('')}</td>
+                <td>${(st.student || []).map(x => `<p style="margin:0 0 6px;">${x}</p>`).join('')}
+                    ${st.differentiation ? `<div class="kmj-saralau"><strong>САРАЛАУ:</strong> ${st.differentiation}</div>` : ''}
+                    ${st.functional_literacy ? `<div class="kmj-func"><strong>Функционалдық сауаттылық:</strong> ${st.functional_literacy}</div>` : ''}
+                </td>
+                <td>${(st.assessment || []).map(x => `<p style="margin:0 0 4px;">${x}</p>`).join('')}</td>
+                <td>${(st.resources || []).map(x => `<p style="margin:0 0 4px;">${x}</p>`).join('')}</td>
+            </tr>
+        `).join('');
 
         lessonPlanResult.innerHTML = `
-            <div class="form-card" style="opacity:0; transform:translateY(20px);">
-                <div style="margin-bottom:24px; padding-bottom:24px; border-bottom:1px solid var(--border-color);">
-                    <h4 style="color:var(--primary); display:flex; align-items:center; gap:8px; margin-bottom:16px;"><i data-lucide="target"></i> Сабақ мақсаты</h4>
-                    <p>${data.aim}</p>
+            <div class="form-card kmj-card" style="opacity:0; transform:translateY(20px);">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+                    <h4 style="color:var(--primary); display:flex; align-items:center; gap:8px; margin:0;"><i data-lucide="file-text"></i> Қысқа мерзімді жоспар (саралаумен)</h4>
+                    <button type="button" class="btn btn-secondary" id="btnPrintKmj" style="padding:8px 16px;"><i data-lucide="printer"></i> Баспаға шығару</button>
                 </div>
-                <div style="margin-bottom:24px; padding-bottom:24px; border-bottom:1px solid var(--border-color);">
-                    <h4 style="color:var(--primary); display:flex; align-items:center; gap:8px; margin-bottom:16px;"><i data-lucide="award"></i> Күтілетін нәтижелер</h4>
-                    <ul style="list-style:none; padding:0; display:flex; flex-direction:column; gap:8px;">${resultsList}</ul>
-                </div>
-                <div style="margin-bottom:24px; padding-bottom:24px; border-bottom:1px solid var(--border-color);">
-                    <h4 style="color:var(--primary); display:flex; align-items:center; gap:8px; margin-bottom:16px;"><i data-lucide="clock"></i> Сабақ барысы</h4>
-                    <div style="display:flex; flex-direction:column; gap:16px;">
-                        <div><strong style="color:var(--secondary);">Кіріспе:</strong> <span style="color:var(--text-muted);">${data.course.intro}</span></div>
-                        <div><strong style="color:var(--secondary);">Негізгі бөлім:</strong> <span style="color:var(--text-muted);">${data.course.main}</span></div>
-                        <div><strong style="color:var(--secondary);">Қорытынды:</strong> <span style="color:var(--text-muted);">${data.course.conclusion}</span></div>
-                    </div>
-                </div>
-                <div>
-                    <h4 style="color:var(--primary); display:flex; align-items:center; gap:8px; margin-bottom:16px;"><i data-lucide="clipboard-list"></i> Тапсырмалар</h4>
-                    <ul style="list-style:none; padding:0; display:flex; flex-direction:column; gap:8px;">${tasksList}</ul>
-                </div>
+
+                <table class="kmj-table kmj-header-table">
+                    <tbody>
+                        <tr><th>Бөлім</th><td>${meta.subject}</td><th>Сынып</th><td>${meta.grade}</td></tr>
+                        <tr><th>Педагогтың аты-жөні</th><td>${teacherName}</td><th>Күні</th><td>${today}</td></tr>
+                        <tr><th>Сабақтың тақырыбы</th><td colspan="3">${meta.topic}</td></tr>
+                        <tr><th>Оқу мақсаты</th><td colspan="3"><span class="kmj-code">${data.objective_code || '—'}</span> ${data.objective_text || ''}</td></tr>
+                        <tr><th>Сабақтың мақсаты</th><td colspan="3"><ul style="margin:0; padding-left:18px;">${goalsHtml}</ul></td></tr>
+                        <tr><th>Құндылықтар</th><td colspan="3">${data.values || ''}</td></tr>
+                        <tr><th>ЖИ құралдары</th><td colspan="3">${aiToolsHtml}</td></tr>
+                    </tbody>
+                </table>
+
+                <table class="kmj-table kmj-flow-table">
+                    <thead>
+                        <tr><th>Кезең/уақыт</th><th>Педагогтың әрекеті</th><th>Оқушының әрекеті / Саралау</th><th>Бағалау</th><th>Ресурстар</th></tr>
+                    </thead>
+                    <tbody>${stagesHtml}</tbody>
+                    <tfoot>
+                        <tr><th>Үй тапсырмасы</th><td colspan="3">${data.homework?.topic || ''}</td><td>${data.homework?.resource || ''}</td></tr>
+                    </tfoot>
+                </table>
             </div>
         `;
         lucide.createIcons();
         gsap.to(lessonPlanResult.querySelector('.form-card'), { opacity: 1, y: 0, duration: 0.5 });
+        document.getElementById('btnPrintKmj')?.addEventListener('click', () => window.print());
     }
 
     // --- MODULE 2: TEST GEN ---
