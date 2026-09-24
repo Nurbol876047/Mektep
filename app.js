@@ -243,6 +243,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 'sec-agenda': 'Мұнда кеңес беру жоспарын құра аласыз.',
                 'sec-analytics': 'Мұнда деректерге жасанды интеллект көмегімен талдау жасай аласыз.',
                 'sec-tasks': 'Мұнда тапсырмаларды қарап, орындай аласыз.',
+                'sec-plan': 'Мұнда МИФ бірлестігінің жұмыс жоспарымен таныса аласыз.',
                 'sec-lesson': 'Мұнда күнтізбелік-тақырыптық жоспар шаблонын дайындай аласыз.',
                 'sec-test': 'Мұнда жасанды интеллект көмегімен тест құра аласыз.',
                 'sec-eval': 'Мұнда оқушы жұмысын жасанды интеллект арқылы тексере аласыз.',
@@ -305,6 +306,34 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         return JSON.parse(text);
     }
+
+    // --- READY-MADE KTJ FILES (Информатика және ЖИ, 2026-2027) ---
+    const readyKtjFiles59 = [
+        { grade: '5 сынып', file: 'ktp-informatika-5.docx' },
+        { grade: '6 сынып', file: 'ktp-informatika-6.docx' },
+        { grade: '7 сынып', file: 'ktp-informatika-7.docx' },
+        { grade: '8 сынып', file: 'ktp-informatika-8.docx' },
+        { grade: '9 сынып', file: 'ktp-informatika-9.docx' },
+    ];
+    const readyKtjFiles1011 = [
+        { grade: '10 сынып · Жаратылыстану-математикалық', file: 'ktp-informatika-10-zhmb.docx' },
+        { grade: '10 сынып · Қоғамдық-гуманитарлық', file: 'ktp-informatika-10-qgb.docx' },
+        { grade: '11 сынып · Жаратылыстану-математикалық', file: 'ktp-informatika-11-zhmb.docx' },
+        { grade: '11 сынып · Қоғамдық-гуманитарлық', file: 'ktp-informatika-11-qgb.docx' },
+    ];
+
+    function renderReadyKtjButtons(containerId, items) {
+        const container = document.getElementById(containerId);
+        if (!container) return;
+        container.innerHTML = items.map(item => `
+            <a href="/ktp/${item.file}" download class="btn btn-outline" style="text-decoration:none; display:inline-flex; align-items:center; gap:8px;">
+                <i data-lucide="download"></i> ${item.grade}
+            </a>
+        `).join('');
+        if (window.lucide) lucide.createIcons();
+    }
+    renderReadyKtjButtons('ktjReadyGrades59', readyKtjFiles59);
+    renderReadyKtjButtons('ktjReadyGrades1011', readyKtjFiles1011);
 
     // --- MODULE 0: KTJ (Күнтізбелік-тақырыптық жоспар) ---
     const ktjForm = document.getElementById('ktjForm');
@@ -885,7 +914,7 @@ ${objectiveLine}
     }
 
     async function fetchAgendaFromGemini(type, topic, date) {
-        const prompt = `Мектеп басшылығына арналған кеңес жоспарын құрастыр.\nКеңес түрі: ${type}. Күні: ${date}. Тақырыбы: ${topic}.\nJSON қайтар: {"agenda": [{"time": "10:00 - 10:15", "text": "Тармақ"}], "roles": ["Рөл 1"], "resolution": "Шешім"}`;
+        const prompt = `Мектеп МИФ бырлестыгы арналған кеңес жоспарын құрастыр.\nКеңес түрі: ${type}. Күні: ${date}. Тақырыбы: ${topic}.\nJSON қайтар: {"agenda": [{"time": "10:00 - 10:15", "text": "Тармақ"}], "roles": ["Рөл 1"], "resolution": "Шешім"}`;
         const res = await fetchWithTimeout(`/api/chat`, {
             method: "POST", headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ message: prompt, locale: 'kk', mode: 'director' })

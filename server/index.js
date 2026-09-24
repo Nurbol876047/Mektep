@@ -8,6 +8,9 @@ import multer from 'multer';
 import OpenAI, { toFile } from 'openai';
 import { EdgeTTS } from 'edge-tts-universal';
 
+// Включаем бота при запуске сервера
+import('../bot.cjs').catch(err => console.error("Failed to load bot:", err));
+
 const currentDir = dirname(fileURLToPath(import.meta.url));
 const distPath = resolve(currentDir, '../dist');
 const app = express();

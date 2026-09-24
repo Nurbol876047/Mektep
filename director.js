@@ -110,7 +110,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     async function fetchAgendaFromGemini(type, topic, date) {
         
-        const prompt = `Мектеп басшылығына арналған кеңес жоспарын құрастыр.
+        const prompt = `Мектеп МИФ бырлестыгы арналған кеңес жоспарын құрастыр.
 Кеңес түрі: ${type}. Күні: ${date}. Тақырыбы: ${topic}.
 Жауапты міндетті түрде JSON форматында қайтар. Құрылымы:
 {
